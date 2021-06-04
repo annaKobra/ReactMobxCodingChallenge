@@ -1,6 +1,6 @@
 import UserModel from '../models/User.model';
 import UserService from '../services/User.service';
-import { action, makeObservable, observable, runInAction } from 'mobx';
+import { action, computed, makeObservable, observable, reaction, runInAction } from 'mobx';
 import axios from 'axios';
 
 class CurrentUserStore {
@@ -12,6 +12,11 @@ class CurrentUserStore {
   constructor() {
     makeObservable(this);
     this.userService = new UserService();
+
+    reaction(
+      () => this.currentUser.name,
+      () => this.currentUser.name = this.modifyUserName
+    )
   }
   
   // Handle localstorge and prevent refresh
@@ -77,6 +82,13 @@ class CurrentUserStore {
     localStorage.removeItem(CurrentUserStore.name);
     localStorage.clear();
     this.currentUser = new UserModel('', 0);
+  }
+
+  @computed
+  get modifyUserName() {
+    let newName = this.currentUser.name;
+    newName = newName.charAt(0).toUpperCase() + newName.substring(1).toLowerCase();
+    return newName.slice(0, 10);
   }
 
 }
