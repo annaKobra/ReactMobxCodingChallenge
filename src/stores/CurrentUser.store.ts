@@ -92,6 +92,5 @@ class CurrentUserStore {
   }
 
 }
-
 const store = new CurrentUserStore();
 export default store;
