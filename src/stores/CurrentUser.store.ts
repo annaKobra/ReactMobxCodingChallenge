@@ -1,6 +1,6 @@
 import UserModel from '../models/User.model';
 import UserService from '../services/User.service';
-import { action, makeObservable, observable } from 'mobx';
+import { action, makeObservable, observable, runInAction } from 'mobx';
 import axios from 'axios';
 
 class CurrentUserStore {
@@ -15,10 +15,12 @@ class CurrentUserStore {
   }
   
   // Handle localstorge and prevent refresh
+  @action
   private loadFromLocalStorage = () => {
     this.currentUser = JSON.parse(window.localStorage.getItem(CurrentUserStore.name) || '{}');
   }
 
+  @action
   private saveToLocalStorage = () => {
     window.localStorage.setItem(
       CurrentUserStore.name,
@@ -60,7 +62,10 @@ class CurrentUserStore {
       const response = await axios.get(url);
       const user = response.data.results[0];
 
-      this.currentUser = new UserModel(user.name.first, user.registered.age);
+      runInAction(() => {
+        this.currentUser = new UserModel(user.name.first, user.registered.age);
+      })
+
       this.saveToLocalStorage();
     } catch(err) {
       console.error(err.message);
