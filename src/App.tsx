@@ -1,15 +1,14 @@
 import React from 'react';
 import './App.css';
+import DisplayUsername from './components/DisplayUsername';
+import EditUser from './components/EditUser';
 
 const App = () => {
   return (
     <div className='App'>
       <header className='App-header'>
-        <p>
-          See <code>Readme.md</code> in the root directory for coding challenge
-          instructions.
-        </p>
-        <p>- ICTBIT Dev Team</p>
+        <DisplayUsername />
+        <EditUser />
       </header>
     </div>
   );
