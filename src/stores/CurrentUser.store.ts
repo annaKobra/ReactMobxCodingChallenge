@@ -21,8 +21,18 @@ class CurrentUserStore {
     } catch(err) {
       console.error(err.message);
     }
-
   }
+
+  @action
+  updateUserName(name: string) {
+    this.currentUser = new UserModel(name, this.currentUser.age);
+  }
+
+  @action
+  updateUserAge(age: number) {
+    this.currentUser = new UserModel(this.currentUser.name, age);
+  }
+  
 }
 
 const store = new CurrentUserStore();

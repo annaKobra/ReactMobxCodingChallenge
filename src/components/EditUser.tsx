@@ -20,12 +20,15 @@ const EditUser = () => {
             <input type="text" 
                    name="name"
                    value={store.currentUser.name}
+                   onChange={e => store.updateUserName(e.target.value)}
                  /><br /><br />
 
             <label htmlFor="age">Age: </label>
             <input type="text" 
                    name="age"
-                   value={store.currentUser.age} />
+                   value={store.currentUser.age}
+                   onChange={e => store.updateUserAge(+e.target.value.replace(/\D/g, ""))}
+                    />
         </div>
     );
 }
