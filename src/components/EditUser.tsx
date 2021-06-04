@@ -6,7 +6,6 @@ const EditUser = () => {
     useEffect(() => {
         const fetchData = async () => {
             await store.getUser();
-            console.log(store.currentUser);
         }
         fetchData();
 

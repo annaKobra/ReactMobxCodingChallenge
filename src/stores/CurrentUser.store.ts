@@ -12,12 +12,30 @@ class CurrentUserStore {
     makeObservable(this);
     this.userService = new UserService();
   }
+  
+  // Handle localstorge and prevent refresh
+  private loadFromLocalStorage = () => {
+    this.currentUser = JSON.parse(window.localStorage.getItem(CurrentUserStore.name) || '{}');
+  }
+
+  private saveToLocalStorage = () => {
+    window.localStorage.setItem(
+      CurrentUserStore.name,
+      JSON.stringify(this.currentUser)
+    )
+  }
 
   @action
   async getUser() {
     try {
       const user = await this.userService.getUser();
-      this.currentUser = new UserModel(user.name.first, user.registered.age);
+      
+      if(!localStorage.getItem(CurrentUserStore.name)) {
+        this.currentUser = new UserModel(user.name.first, user.registered.age);
+        this.saveToLocalStorage();
+      } else {
+        this.loadFromLocalStorage();
+      }
     } catch(err) {
       console.error(err.message);
     }
@@ -32,7 +50,7 @@ class CurrentUserStore {
   updateUserAge(age: number) {
     this.currentUser = new UserModel(this.currentUser.name, age);
   }
-  
+
 }
 
 const store = new CurrentUserStore();
