@@ -44,11 +44,13 @@ class CurrentUserStore {
   @action
   updateUserName(name: string) {
     this.currentUser = new UserModel(name, this.currentUser.age);
+    this.saveToLocalStorage();
   }
 
   @action
   updateUserAge(age: number) {
     this.currentUser = new UserModel(this.currentUser.name, age);
+    this.saveToLocalStorage();
   }
 
 }
