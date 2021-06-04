@@ -1,7 +1,13 @@
 import UserModel from '../models/User.model';
+import { makeObservable } from 'mobx';
 
-export default class CurrentUserStore {
-  // currentUser: UserModel;
+class CurrentUserStore {
+  currentUser: UserModel = new UserModel('', 0);
 
-  constructor() {}
+  constructor() {
+    makeObservable(this);
+  }
 }
+
+const store = new CurrentUserStore();
+export default store;
