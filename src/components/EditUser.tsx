@@ -18,7 +18,7 @@ const EditUser = () => {
     return (
         <div>
             <button onClick={loadData}>Load</button>
-            <button>Clear</button>
+            <button onClick={() => store.clearData()}>Clear</button>
             <h1>Edit user Page</h1>
             <label htmlFor="name">Name: </label>
             <input type="text" 

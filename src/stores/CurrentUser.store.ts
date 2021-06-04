@@ -67,6 +67,13 @@ class CurrentUserStore {
     }
   }
 
+  @action
+  clearData() {
+    localStorage.removeItem(CurrentUserStore.name);
+    localStorage.clear();
+    this.currentUser = new UserModel('', 0);
+  }
+
 }
 
 const store = new CurrentUserStore();
