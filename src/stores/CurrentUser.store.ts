@@ -1,6 +1,7 @@
 import UserModel from '../models/User.model';
 import UserService from '../services/User.service';
 import { action, makeObservable, observable } from 'mobx';
+import axios from 'axios';
 
 class CurrentUserStore {
   @observable
@@ -51,6 +52,19 @@ class CurrentUserStore {
   updateUserAge(age: number) {
     this.currentUser = new UserModel(this.currentUser.name, age);
     this.saveToLocalStorage();
+  }
+
+  @action 
+  async load(url: string) {
+    try {
+      const response = await axios.get(url);
+      const user = response.data.results[0];
+
+      this.currentUser = new UserModel(user.name.first, user.registered.age);
+      this.saveToLocalStorage();
+    } catch(err) {
+      console.error(err.message);
+    }
   }
 
 }

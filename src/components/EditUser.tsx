@@ -11,9 +11,14 @@ const EditUser = () => {
 
     }, [])
 
+    const loadData = () => {
+        store.load('https://randomuser.me/api');
+    }
+
     return (
         <div>
-            {store.currentUser.name}
+            <button onClick={loadData}>Load</button>
+            <button>Clear</button>
             <h1>Edit user Page</h1>
             <label htmlFor="name">Name: </label>
             <input type="text" 
